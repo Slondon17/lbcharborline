@@ -1,46 +1,33 @@
+# Codemagic cloud build for Harborline (Android / Google Play).
+# Each build makes a signed .aab you upload to Google Play.
+# Setup steps: see "GOOGLE PLAY GUIDE.md".
 workflows:
   android-release:
     name: Harborline - Android release
-    instance_type: mac_mini_m2
+    instance_type: mac_mini_m2          # covered by Codemagic's 500 free minutes a month
     max_build_duration: 40
     environment:
       android_signing:
-        - harborline_upload
+        - harborline_upload             # the name you give the keystore in Codemagic
       node: 22
       java: 21
     scripts:
-      - name: Find the project and install packages
-        script: |
-          [ -f package.json ] || cd harborline-app 2>/dev/null || true
-          if [ ! -f package.json ] || [ ! -f scripts/landscape.mjs ]; then
-            echo "PROJECT FILES NOT FOUND. Top of the repository contains:"; ls -la
-            echo "Inside harborline-app (if it exists):"; ls -la harborline-app 2>/dev/null || true
-            exit 1
-          fi
-          echo "Project folder: $(pwd)"
-          npm install
+      - name: Install packages
+        script: npm install
       - name: Create the Android project
         script: |
-          [ -f package.json ] || cd harborline-app
           npx cap add android
           node scripts/landscape.mjs
       - name: App icon and splash screen
-        script: |
-          [ -f package.json ] || cd harborline-app
-          npm run icons:android
+        script: npm run icons:android
       - name: Copy the game into the app
-        script: |
-          [ -f package.json ] || cd harborline-app
-          npx cap sync android
+        script: npx cap sync android
       - name: Release settings (API 36, version, signing)
-        script: |
-          [ -f package.json ] || cd harborline-app
-          node scripts/android-release.mjs
+        script: node scripts/android-release.mjs
       - name: Build the app bundle
         script: |
-          [ -f package.json ] || cd harborline-app
           cd android
           chmod +x gradlew
           ./gradlew bundleRelease
     artifacts:
-      - "**/outputs/bundle/release/*.aab"
+      - android/app/build/outputs/bundle/release/*.aab

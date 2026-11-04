@@ -1,0 +1,20 @@
+{
+  "appId": "com.harborline.game",
+  "appName": "Harborline",
+  "webDir": "www",
+  "backgroundColor": "#08131d",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#08131d"
+  },
+  "android": {
+    "backgroundColor": "#08131d"
+  },
+  "plugins": {
+    "SystemBars": {
+      "insetsHandling": "native",
+      "hidden": true,
+      "style": "DARK"
+    }
+  }
+}
