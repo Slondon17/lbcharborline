@@ -1,33 +1,80 @@
 # Codemagic cloud build for Harborline (Android / Google Play).
-# Each build makes a signed .aab you upload to Google Play.
+# Free app: the Harbor Run demo, with a one-time "full_game" in-app purchase that unlocks the whole fleet.
 # Setup steps: see "GOOGLE PLAY GUIDE.md".
+#
+# Two workflows (pick one with "Start new build"):
+#   android-tester  -> whole game unlocked, no purchase. Upload ONLY to Closed testing.
+#   android-release -> the store version (demo + purchase). Use this for Production.
+
+definitions:
+  environment: &env
+    android_signing:
+      - harborline_upload             # the name you gave the keystore in Codemagic
+    node: 22
+    java: 21
+  steps:
+    - &install
+      name: Install packages
+      script: npm install
+    - &edition
+      name: App edition, bridge tabs, helm console and in-app purchase
+      script: |
+        node scripts/app-edition.mjs
+        node scripts/hud-tabs.mjs
+        node scripts/console-controls.mjs
+        npm run bundle:store
+    - &android
+      name: Create the Android project
+      script: |
+        npx cap add android
+        node scripts/landscape.mjs
+    - &icons
+      name: App icon and splash screen
+      script: npm run icons:android
+    - &sync
+      name: Copy the game into the app
+      script: npx cap sync android
+    - &release
+      name: Release settings (API 36, version, signing, billing)
+      script: node scripts/android-release.mjs
+    - &bundle
+      name: Build the app bundle
+      script: |
+        cd android
+        chmod +x gradlew
+        ./gradlew bundleRelease
+
 workflows:
   android-release:
-    name: Harborline - Android release
+    name: Harborline - Android release (store version)
     instance_type: mac_mini_m2          # covered by Codemagic's 500 free minutes a month
     max_build_duration: 40
-    environment:
-      android_signing:
-        - harborline_upload             # the name you give the keystore in Codemagic
-      node: 22
-      java: 21
+    environment: *env
     scripts:
-      - name: Install packages
-        script: npm install
-      - name: Create the Android project
-        script: |
-          npx cap add android
-          node scripts/landscape.mjs
-      - name: App icon and splash screen
-        script: npm run icons:android
-      - name: Copy the game into the app
-        script: npx cap sync android
-      - name: Release settings (API 36, version, signing)
-        script: node scripts/android-release.mjs
-      - name: Build the app bundle
-        script: |
-          cd android
-          chmod +x gradlew
-          ./gradlew bundleRelease
+      - *install
+      - *edition
+      - *android
+      - *icons
+      - *sync
+      - *release
+      - *bundle
+    artifacts:
+      - android/app/build/outputs/bundle/release/*.aab
+
+  android-tester:
+    name: Harborline - Tester build (full game unlocked)
+    instance_type: mac_mini_m2
+    max_build_duration: 40
+    environment: *env
+    scripts:
+      - *install
+      - *edition
+      - name: Unlock the full game for testers
+        script: node scripts/tester-edition.mjs
+      - *android
+      - *icons
+      - *sync
+      - *release
+      - *bundle
     artifacts:
       - android/app/build/outputs/bundle/release/*.aab
