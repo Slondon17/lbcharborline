@@ -45,5 +45,16 @@ if (!g.includes('signingConfigs {')) {
   g = g.replace(/(buildTypes\s*\{[\s\S]*?release\s*\{)/, `$1\n            signingConfig signingConfigs.release`);
 }
 writeFileSync(app, g);
+
+// 4. Google Play Billing permission (needed for the "full_game" in-app purchase)
+const manifest = 'android/app/src/main/AndroidManifest.xml';
+if (existsSync(manifest)) {
+  let m = readFileSync(manifest, 'utf8');
+  if (!m.includes('com.android.vending.BILLING')) {
+    m = m.replace(/<application\b/, '<uses-permission android:name="com.android.vending.BILLING" />\n    <application');
+    writeFileSync(manifest, m);
+  }
+  console.log('Billing permission:', m.includes('com.android.vending.BILLING') ? 'yes' : 'MISSING');
+}
 if (process.env.CI && !process.env.CM_KEYSTORE_PATH) fail('no upload key found. Add the keystore in Codemagic and check the reference name in codemagic.yaml.');
 console.log(`Android release ready: version ${pkg.version} (code ${code})`);

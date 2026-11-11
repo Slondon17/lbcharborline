@@ -326,6 +326,109 @@ a.btn{display:inline-block;text-decoration:none;text-align:center}
 .runhint{position:absolute;left:50%;top:64px;transform:translateX(-50%);max-width:min(430px,36vw);padding:7px 12px;font-size:14px;line-height:1.5;pointer-events:none;text-align:center}
 .runhint kbd{font-size:12px;padding:1px 5px}
 @media (max-width:700px){.runhint{top:auto;bottom:46%;font-size:12px;max-width:80vw}.codebox code{font-size:17px}.tease{grid-template-columns:repeat(2,1fr)}}
+
+/* HUD TABS */
+.tucktab{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:26px;margin:-2px 0 0;padding:2px 2px 4px;background:none;border:0;border-bottom:1px solid var(--line);color:var(--muted);font:600 10px/1.1 var(--body);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;touch-action:manipulation}
+.tucktab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tucktab::after{content:"";flex:none;width:7px;height:7px;border-right:2px solid var(--amber);border-bottom:2px solid var(--amber);transform:translateY(-2px) rotate(45deg)}
+.tele>h3{display:none}
+.inst.tuck>*:not(.tucktab){display:none!important}
+.inst.tuck{display:flex!important;width:auto!important;min-width:0!important;max-width:none!important;flex:0 0 auto!important;padding:4px 10px!important;gap:0!important;opacity:.92}
+.inst.tuck .tucktab{border:0;padding:4px 0;min-height:30px;color:var(--fg);font-size:11px}
+.inst.tuck .tucktab::after{transform:translateY(2px) rotate(-135deg)}
+.inst.tuck .tucktab b{color:var(--amber);font-family:var(--mono);font-weight:500;letter-spacing:0;margin-left:6px}
+@media (orientation:landscape) and (max-height:520px){
+  .tucktab{min-height:22px;font-size:9px;padding:0 0 3px}
+  .inst.tuck .tucktab{min-height:28px;font-size:10px}
+  .util.tuck{width:auto!important}
+}
+
+/* CONSOLE CONTROLS */
+.console{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(6px + env(safe-area-inset-bottom,0px));width:min(920px,calc(100% - 2*max(10px,env(safe-area-inset-left,0px))));pointer-events:auto;
+  border-radius:8px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.55);background:#14181b;font-family:var(--body);user-select:none;-webkit-user-select:none}
+.cn-tab{display:flex;align-items:center;gap:10px;width:100%;height:24px;padding:0 12px;border:0;cursor:pointer;touch-action:manipulation;
+  background:linear-gradient(180deg,#7a4a2a,#5a331b 55%,#4a2914);color:#f1dcc6;font:600 10px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,220,180,.25)}
+.cn-tab b{margin-left:auto;font-family:var(--mono);font-weight:500;letter-spacing:0;color:#ffd08a}
+.cn-tab::after{content:"";width:7px;height:7px;border-right:2px solid #ffd08a;border-bottom:2px solid #ffd08a;transform:translateY(-2px) rotate(45deg)}
+.console.tuck .cn-face{display:none}.console.tuck .cn-tab::after{transform:translateY(2px) rotate(-135deg)}
+.console.tuck{width:auto;min-width:300px}
+.cn-face{display:grid;grid-template-columns:78px minmax(0,1.25fr) minmax(0,1fr) 150px;gap:10px;padding:10px 12px 12px;
+  background:radial-gradient(120% 140% at 50% 0%,#20262b,#111417 70%);border-top:1px solid #000}
+.cn-cap{font:600 9px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:#7f8c95;text-align:center;margin-bottom:6px}
+/* engine lever */
+.cn-eng{display:flex;flex-direction:column;touch-action:none;cursor:ns-resize}
+.cn-slot{position:relative;flex:1;min-height:110px;margin:0 auto;width:62px;border-radius:6px;background:#0b0d0f;box-shadow:inset 0 2px 6px #000,0 0 0 1px #2c343a}
+.cn-slot::before{content:"";position:absolute;left:50%;top:8px;bottom:8px;width:8px;margin-left:-4px;border-radius:4px;background:#000;box-shadow:inset 0 1px 3px #000}
+.cn-ticks{position:absolute;inset:8px 0}
+.cn-ticks i{position:absolute;left:6px;right:6px;height:2px;margin-top:-1px;border-radius:1px;background:#3a4349}
+.cn-ticks i.a{background:#2b9a5a}.cn-ticks i.s{background:#d9dde0;height:3px}.cn-ticks i.r{background:#b8382e}
+.cn-handle{position:absolute;left:50%;top:50%;width:44px;height:22px;margin:-11px 0 0 -22px;border-radius:7px;transition:top .12s;
+  background:linear-gradient(180deg,#3d454b,#15191c);box-shadow:0 3px 6px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.18)}
+.cn-handle i{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff7a6a,#c8231b 60%,#7c120d);box-shadow:0 0 6px rgba(255,60,40,.5)}
+.cn-eng.drag .cn-handle{transition:none}
+/* displays */
+.cn-mid{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cn-lcds{display:grid;grid-template-columns:1fr 64px 1fr;gap:6px;align-items:center}
+.lcd{border-radius:4px;padding:4px 6px 3px;background:linear-gradient(180deg,#a9b9a0,#8fa287);box-shadow:inset 0 1px 4px rgba(0,0,0,.45),0 0 0 2px #262c30,0 0 0 3px #3a4248;color:#18221a;text-align:right;min-width:0}
+.lcd small{display:block;text-align:left;font:700 8px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:#2e4232}
+.lcd b{display:block;font:500 20px/1.05 var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lcd.round{width:64px;height:64px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;text-align:center;box-shadow:inset 0 1px 6px rgba(0,0,0,.5),0 0 0 3px #1b2024,0 0 0 5px #3a4248}
+.lcd.round small{text-align:center}.lcd.round b{font-size:21px}
+.cn-ord{text-align:center;font:600 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#ffd08a;padding:5px 6px;border-radius:3px;background:#0b0d0f;box-shadow:inset 0 1px 3px #000}
+.cn-ord.ah{color:#7fe0a3}.cn-ord.as{color:#ff8a7a}
+.cn-rud{display:flex;align-items:center;gap:6px;font:600 9px/1 var(--mono)}
+.cn-rud span:first-child{color:#ff6b5e}.cn-rud span:last-child{color:#5fd68a}
+.cn-rbar{position:relative;flex:1;height:10px;border-radius:5px;background:linear-gradient(90deg,#5a1d19,#1b2024 48%,#1b2024 52%,#1b4a2c);box-shadow:inset 0 1px 3px #000}
+.cn-rbar i{position:absolute;top:-3px;width:3px;height:16px;margin-left:-1.5px;border-radius:2px;left:50%}
+#cnRudA{background:#f3a73b;box-shadow:0 0 6px #f3a73b}#cnRudC{background:#e8edf0;opacity:.55;width:2px}
+.cn-stat{display:flex;gap:10px;font-size:10px;color:#8b98a1;flex-wrap:wrap}.cn-stat b{font-family:var(--mono);font-weight:500;color:#dfe6ea}
+.cn-spdw{color:#ff8a7a;font-weight:700}
+/* keypad */
+.cn-keys{display:flex;flex-direction:column;gap:4px;min-width:0}
+.cn-krow{display:flex;gap:5px}.cn-krow small{font:600 8px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:#7f8c95;margin-top:2px}
+.ck{position:relative;flex:1;min-width:0;min-height:30px;padding:4px 6px 4px 14px;border-radius:3px;border:1px solid #000;cursor:pointer;touch-action:none;
+  background:linear-gradient(180deg,#2c3337,#1a1f22);color:#e9eef1;font:600 11px/1.1 var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 2px 0 #050607}
+.ck i{position:absolute;left:5px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:#3d474d}
+.ck.on,.ck:active{background:linear-gradient(180deg,#1a1f22,#2a3135);transform:translateY(1px);box-shadow:inset 0 1px 3px #000}
+.ck.on i,.ck:active i{background:#ffb347;box-shadow:0 0 6px #ffb347}
+.ck.red i{background:#8a2a22}.ck.red:active i{background:#ff5a4a;box-shadow:0 0 6px #ff5a4a}
+.ck:disabled{opacity:.4}
+/* steering tiller */
+.cn-til{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hwheel{flex:none;width:124px;height:124px;touch-action:none;cursor:grab;-webkit-tap-highlight-color:transparent}
+.hwheel.drag{cursor:grabbing}
+.hwheel svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 3px 4px rgba(0,0,0,.6))}
+.wrot{transform-origin:0 0}
+.wsp{stroke:#5b351d;stroke-width:4;stroke-linecap:round}
+.wh{stroke:#7a4a2a;stroke-width:6.5;stroke-linecap:round}.wh.king{stroke:#e0aa45}
+.wrim{fill:none;stroke:#5e381f;stroke-width:7.5}.wrim2{fill:none;stroke:#b07548;stroke-width:1.6;opacity:.85}
+.whub{fill:#c9963a;stroke:#6e4c17;stroke-width:1.5}.whub2{fill:#3a2a12}
+.wmark{fill:#e0aa45}
+.rwrap{display:flex;gap:12px;align-items:center}.rcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.rwrap .hwheel{width:86px;height:86px}
+#rudder{display:none}
+/* console mode: hide the classic panels, options move to a side column */
+body.cn-on .hud-bottom .tele,body.cn-on .hud-bottom .gauges,body.cn-on .hud-bottom .thr{display:none!important}
+body.cn-on .util{position:fixed;left:max(8px,env(safe-area-inset-left,0px));top:calc(96px + env(safe-area-inset-top,0px));display:flex;flex-direction:column;gap:4px;padding:5px;width:104px}
+body.cn-on .util .hb{min-height:32px;font-size:11px;padding:4px 6px}
+body.photo .console{display:none}
+@media (orientation:landscape) and (max-height:520px){
+  .console{bottom:calc(4px + env(safe-area-inset-bottom,0px));left:calc(max(8px,env(safe-area-inset-left,0px)) + 96px);right:max(8px,env(safe-area-inset-right,0px));width:auto;transform:none}
+  .console.tuck{right:auto}
+  .cn-tab{height:20px}
+  .cn-face{grid-template-columns:58px minmax(0,1.3fr) minmax(0,1fr) 112px;gap:8px;padding:6px 10px 7px}
+  .cn-cap,.cn-krow:has(small),.cn-stat{display:none}
+  .cn-slot{min-height:92px;width:50px}
+  body:not(.cn-on) #ctrlBtn{display:none}
+  .cn-wheel{width:96px;height:96px}
+  .rwrap{gap:8px}.rwrap .hwheel{width:62px;height:62px}
+  .ck{min-height:28px}
+  .lcd b{font-size:16px}.lcd.round{width:52px;height:52px}.lcd.round b{font-size:17px}.cn-lcds{grid-template-columns:1fr 52px 1fr}
+  .cn-mid{gap:4px}.cn-ord{font-size:10px;padding:3px}
+  .ck{font-size:10px}
+  body.cn-on .util{width:88px;top:calc(88px + env(safe-area-inset-top,0px))}
+}
 </style>
 
 <canvas id="gl" aria-label="3D view of the harbor"></canvas>
@@ -349,6 +452,7 @@ a.btn{display:inline-block;text-decoration:none;text-align:center}
       <button class="btn ghost" data-p="restart">Restart mission</button>
       <button class="btn ghost" data-p="photo">Photo mode</button>
       <button class="btn ghost" data-p="sound" id="pSound">Sound: on</button>
+      <button class="btn ghost" data-p="ctrl" id="pCtrl">Controls: Classic</button>
       <button class="btn ghost" data-p="pilot">Hand over to the pilot</button>
       <button class="btn ghost" data-p="abandon">Abandon voyage</button>
     </div>
@@ -373,32 +477,63 @@ a.btn{display:inline-block;text-decoration:none;text-align:center}
       <tr><td><kbd>C</kbd> <kbd>L</kbd> <kbd>M</kbd></td><td>Dock cams · searchlight · sound</td></tr>
     </tbody></table>
   </div>
+  <section class="console" id="console" hidden aria-label="Helm console">
+    <button type="button" class="cn-tab" id="cnTab" aria-expanded="true"><span>Helm console</span><b id="cnTabVal"></b></button>
+    <div class="cn-face">
+      <div class="cn-eng" id="cnEng" role="slider" aria-label="Engine order" aria-valuemin="0" aria-valuemax="8">
+        <div class="cn-cap">Engine</div>
+        <div class="cn-slot"><div class="cn-ticks" id="cnTicks"></div><div class="cn-handle" id="cnLever"><i></i></div></div>
+      </div>
+      <div class="cn-mid">
+        <div class="cn-lcds">
+          <div class="lcd"><small>Speed kn</small><b id="cnSpd">0.0</b></div>
+          <div class="lcd round"><small>Hdg</small><b id="cnHdg">000</b></div>
+          <div class="lcd"><small>Rot °/m</small><b id="cnRot">0</b></div>
+        </div>
+        <div class="cn-ord" id="cnOrd">Stop</div>
+        <div class="cn-rud"><span>P</span><div class="cn-rbar"><i id="cnRudA"></i><i id="cnRudC"></i></div><span>S</span></div>
+        <div class="cn-stat"><span>Hull <b id="cnHull">100%</b></span><span>Fuel <b id="cnFuel">$0</b></span><span class="cn-spdw" id="cnSpdW" hidden>Speeding</span></div>
+      </div>
+      <div class="cn-keys">
+        <div class="cn-krow"><small id="cnThrH">Bow thruster</small></div>
+        <div class="cn-krow"><button type="button" class="ck" data-chold="bowL" id="cnBowL"><i></i>◀ Bow</button><button type="button" class="ck" data-chold="bowR" id="cnBowR"><i></i>Bow ▶</button></div>
+        <div class="cn-krow"><small id="cnTugH">Tugs</small></div>
+        <div class="cn-krow" id="cnTugRow"><button type="button" class="ck" data-chold="tugL"><i></i>◀ Tug</button><button type="button" class="ck" data-chold="tugR"><i></i>Tug ▶</button></div>
+        <div class="cn-krow" id="cnLineRow" hidden><button type="button" class="ck" data-cact="fast" id="cnFast"><i></i>Make fast</button><button type="button" class="ck" data-cact="letgo" id="cnLetgo"><i></i>Let go</button></div>
+        <div class="cn-krow"><button type="button" class="ck red" data-cact="horn"><i></i>Horn</button><button type="button" class="ck" data-cact="mid"><i></i>Midships</button></div>
+      </div>
+      <div class="cn-til" id="cnTil" role="slider" aria-label="Steering wheel" aria-valuemin="-35" aria-valuemax="35">
+        <div class="cn-cap">Steering</div>
+        <div class="cn-wheel hwheel" id="cnWheel"></div>
+      </div>
+    </div>
+  </section>
   <div class="hud-bottom" id="hudBottom">
-    <section class="panel inst tele"><h3>Engine order</h3><ol id="teleList"></ol>
+    <section class="panel inst tele" data-panel="engine"><button type="button" class="tucktab" data-tuck="engine" aria-expanded="true"><span>Engine</span></button><h3>Engine order</h3><ol id="teleList"></ol>
       <div class="row"><button class="hb" data-act="up">▲ Ahead</button><button class="hb" data-act="down">▼ Astern</button></div></section>
-    <section class="panel inst gauges">
+    <section class="panel inst gauges" data-panel="rudder"><button type="button" class="tucktab" data-tuck="rudder" aria-expanded="true"><span>Rudder</span></button>
       <div class="readouts">
         <div><small>Speed</small><b id="hSpd">0.0</b><em>kn</em></div>
         <div><small>Heading</small><b id="hHdg">000</b><em>°</em></div>
         <div><small>Turn rate</small><b id="hRot">0</b><em>°/min</em></div>
       </div>
-      <div><small>Rudder <span id="hRud" class="num">0°</span></small>
+      <div class="rwrap"><div class="rcol"><small>Rudder <span id="hRud" class="num">0°</span></small>
         <div class="rbar"><i id="rNeedle"></i><i id="rCmd"></i></div>
         <input type="range" id="rudder" min="-35" max="35" step="1" value="0" aria-label="Rudder command">
-        <div class="rlabels"><span>35° port</span><button class="hb" data-act="mid">Midships</button><span>stbd 35°</span></div></div>
+        <div class="rlabels"><span>35° port</span><button class="hb" data-act="mid">Midships</button><span>stbd 35°</span></div></div><div class="hwheel" id="clWheel" role="slider" aria-label="Steering wheel" aria-valuemin="-35" aria-valuemax="35"></div></div>
       <div class="statusrow">
         <div class="sg"><small>Hull</small><span class="hbar"><i id="hullFill"></i></span><b id="hHull" class="num">100%</b></div>
         <div class="sg"><small>Harbor fuel</small><b id="hFuel" class="num">$0</b></div>
         <span class="chip spd" id="hSpeedChip" hidden>Speeding 0 s</span>
       </div>
     </section>
-    <section class="panel inst"><h3 id="thrH">Bow thruster</h3>
+    <section class="panel inst thr" data-panel="thrust"><button type="button" class="tucktab" data-tuck="thrust" aria-expanded="true"><span>Thrusters · tugs</span></button><h3 id="thrH">Bow thruster</h3>
       <div class="row"><button class="hb" data-hold="bowL">◀ Port</button><button class="hb" data-hold="bowR">Stbd ▶</button></div>
       <h3 id="tugH">Tugs</h3>
       <div class="row" id="tugRow"><button class="hb" data-hold="tugL" id="tugL">◀ Push</button><button class="hb" data-hold="tugR" id="tugR">Push ▶</button></div>
       <div class="row" id="lineRow" hidden><button class="hb" data-act="fast" id="fastBtn">Make fast</button><button class="hb" data-act="letgo" id="letgoBtn">Let go</button></div>
       <p id="tugNote">Tugs make fast below 5 kn</p></section>
-    <section class="panel inst util">
+    <section class="panel inst util" data-panel="options"><button type="button" class="tucktab" data-tuck="options" aria-expanded="true"><span>Options</span></button>
       <button class="hb" data-act="cam" id="camBtn">Chase cam</button>
       <button class="hb" data-act="dock" id="dockBtn">Dock cams</button>
       <button class="hb" data-act="warp" id="warpBtn">Speed: Normal</button>
@@ -406,6 +541,7 @@ a.btn{display:inline-block;text-decoration:none;text-align:center}
       <button class="hb" data-act="horn">Horn</button>
       <button class="hb" data-act="sound" id="sndBtn">Sound on</button>
       <button class="hb" data-act="keys">Keys</button>
+      <button class="hb" data-act="ctrl" id="ctrlBtn">Controls: Classic</button>
       <button class="hb" data-act="photo">Hide HUD</button>
       <button class="hb" data-act="dive" id="diveBtn" hidden>Dive</button>
     </section>
@@ -432,6 +568,27 @@ a.btn{display:inline-block;text-decoration:none;text-align:center}
 <div id="modal" hidden><div class="sheet" id="sheet"></div></div>
 <div id="toasts"></div>
 
+<script>
+(()=>{
+  const KEY='harborline-hud-tucked';
+  let t={};try{t=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+  const panels=[...document.querySelectorAll('#hud [data-panel]')];
+  const set=(p,on)=>{p.classList.toggle('tuck',on);const b=p.querySelector('.tucktab');if(b)b.setAttribute('aria-expanded',String(!on));};
+  panels.forEach(p=>{set(p,!!t[p.dataset.panel]);
+    p.querySelector('.tucktab').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();
+      const on=!p.classList.contains('tuck');set(p,on);t[p.dataset.panel]=on;
+      try{localStorage.setItem(KEY,JSON.stringify(t))}catch(e){}live();});});
+  const txt=s=>{const e=document.querySelector(s);return e?e.textContent.trim():''};
+  const label={engine:()=>{const li=document.querySelector('#teleList li.on');return li?li.textContent.trim():''},
+    rudder:()=>txt('#hRud')+' · '+txt('#hSpd')+' kn'};
+  function live(){panels.forEach(p=>{const f=label[p.dataset.panel];const sp=p.querySelector('.tucktab span');if(!sp)return;
+    const base=sp.dataset.base||(sp.dataset.base=sp.textContent);
+    if(f&&p.classList.contains('tuck')){const v=f();sp.innerHTML=base+(v?'<b></b>':'');if(v)sp.querySelector('b').textContent=v;}
+    else if(sp.textContent!==base)sp.textContent=base;});}
+  setInterval(live,250);
+})();
+</script>
+<script src="store.js"></script>
 <script src="lib/three.min.js"></script>
 <script src="lib/ex/shaders/CopyShader.js"></script>
 <script src="lib/ex/shaders/LuminosityHighPassShader.js"></script>
@@ -562,15 +719,18 @@ const SEA_BUOYS={LB:{x:160,z:1000,r:230},LA:{x:-4380,z:1000,r:230}};
 const seaBuoyOf=c=>SEA_BUOYS[BERTHS[c.berth].port];
 const gateOf=c=>GATES[BERTHS[c.berth].port];
 /* ================= EDITIONS ================= */
-const EDITION='complete'; // build sets 'demo' | 'standard' | 'complete'
+/* APP EDITION: in-app unlock */
+const UNLOCK_KEY='harborline-full-unlock';
+const EDITION=(()=>{try{return localStorage.getItem(UNLOCK_KEY)==='1'?'complete':'demo'}catch(e){return 'demo'}})();
+const APP_IAP=true;let IAP_PRICE='';
 const DEMO=EDITION==='demo';
 const OWNER=false; // owner's copy: every ship is free and in the fleet. Store builds set this to false.
 const STORE_URL='https://haborline.itch.io/harborline';
 const ED_SHIPS={demo:['fishing','speedboat','feeder'],standard:['fishing','speedboat','feeder','panamax','neo','tanker','cruise','roro','reefer']};
 const shipAllowed=k=>EDITION==='complete'||ED_SHIPS[EDITION].includes(k);
-const lockLabel=k=>EDITION==='demo'&&ED_SHIPS.standard.includes(k)?'the full game':'Complete Fleet';
+const lockLabel=k=>'the full game';
 const lvlPick=a=>Math.min(EDITION==='demo'?2:4,pick(a));
-const storeBtn=(label,cls='btn')=>`<a class="${cls}" href="${STORE_URL}" target="_blank" rel="noopener">${label}</a>`;
+const storeBtn=(label,cls='btn')=>`<button type="button" class="${cls}" data-iap="buy">${label}${IAP_PRICE?' · '+IAP_PRICE:''}</button>`;
 const LA_OPEN=OWNER; // Port of Los Angeles missions: owner's copy now, paid editions later
 const portOpen=p=>p==='LB'||LA_OPEN;
 const berthsFor=(kind,port)=>BERTHS.map((b,i)=>i).filter(i=>BERTHS[i].kind===kind&&portOpen(BERTHS[i].port)&&(!port||BERTHS[i].port===port));
@@ -2542,22 +2702,22 @@ function buildWheelhouse(pl,cfg){const g=new THREE.Group();const {L,B}=cfg;const
     const wheel=new THREE.Object3D(),lever=new THREE.Object3D();g.add(wheel,lever);g.visible=false;pl.group.add(g);
     return {g,eyeY:C.eyeY,eyeZ:C.eyeZ,wheel,lever,lightPos:new THREE.Vector3(0,C.eyeY,C.eyeZ),x0:C.x||0};}
   const eyeY=C.eyeY??pl.deckY+pl.supH-4.2,yF=eyeY-1.75,yC=eyeY+1.5,W=C.W??B*0.6,zF=C.zF??-(pl.bridgeLon+L*0.004)-L*0.025+0.35,D=C.D??Math.min(9,L*0.05-0.7),zB=zF+D,zm=(zF+zB)/2;
-  const mI=new THREE.MeshLambertMaterial({color:0x2b3237}),mF=new THREE.MeshLambertMaterial({color:0x363b36}),mC=new THREE.MeshLambertMaterial({color:0xcfcdc5}),mP=new THREE.MeshLambertMaterial({color:0x1a1f23}),mW=new THREE.MeshLambertMaterial({color:0x5b4636});
+  const mI=new THREE.MeshLambertMaterial({color:0x5a3721}),mF=new THREE.MeshLambertMaterial({color:0x363b36}),mC=new THREE.MeshLambertMaterial({color:0xcfcdc5}),mP=new THREE.MeshLambertMaterial({color:0x1a1f23}),mW=new THREE.MeshLambertMaterial({color:0x5b4636});
   const add=(w,h,d,m,x,y,z)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);g.add(o);return o;};
   add(W,0.2,D,mF,0,yF-0.1,zm);add(W,0.2,D,mC,0,yC+0.1,zm);
   add(W,1.05,0.3,mI,0,yF+0.52,zF);add(W,0.4,0.3,mI,0,yC-0.2,zF);
-  const narrow=W<9,nM=narrow?Math.max(3,Math.round(W/1.4)):2*Math.max(2,Math.round(W/4.6))+1;for(let k=0;k<=nM;k++)add(0.13,yC-yF,0.2,mP,-W/2+k*W/nM,(yF+yC)/2,zF);
+  const narrow=W<9,nM=narrow?Math.max(3,Math.round(W/1.4)):2*Math.max(2,Math.round(W/4.6))+1;for(let k=0;k<=nM;k++)add(0.26,yC-yF,0.24,mI,-W/2+k*W/nM,(yF+yC)/2,zF);
   for(const s of [-1,1]){add(0.3,1.05,D,mI,s*W/2,yF+0.52,zm);add(0.3,0.4,D,mI,s*W/2,yC-0.2,zm);for(let z=zF;z<=zB+0.01;z+=D/3)add(0.2,yC-yF,0.14,mP,s*W/2,(yF+yC)/2,z);}
   add(W,yC-yF,0.3,mI,0,(yF+yC)/2,zB);
   const cw=narrow?W-0.7:Math.min(W*0.78,13,W-1.9);add(cw,1.0,1.0,mP,0,yF+0.5,zF+1.05);
-  const panel=add(cw,0.08,1.0,mI,0,yF+1.12,zF+1.05);panel.rotation.x=0.45;
+  const panel=add(cw,0.08,1.0,mP,0,yF+1.12,zF+1.05);panel.rotation.x=0.45;
   const scr=(tex,x,w)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,w*0.7),new THREE.MeshBasicMaterial({map:tex,toneMapped:false}));m.position.set(x,yF+1.2,zF+1.0);m.rotation.x=-1.12;g.add(m);};
   const sw=Math.min(0.8,cw*0.27),chw=Math.min(0.95,cw*0.3),sx0=Math.max(cw*0.24,(sw+chw)/2+0.1);scr(radarTex,-sx0,sw);scr(chartTex,0,chw);scr(conTex,sx0,sw);
   const wheel=new THREE.Mesh(new THREE.TorusGeometry(0.24,0.03,8,28),mW);wheel.position.set(0,yF+1.08,zF+1.95);wheel.rotation.x=-0.5;g.add(wheel);
   for(let k=0;k<6;k++){const sp=new THREE.Mesh(new THREE.BoxGeometry(0.025,0.46,0.025),mW);sp.rotation.z=k*Math.PI/3;wheel.add(sp);}
   const ped=add(0.16,0.9,0.16,mP,0,yF+0.5,zF+2.0);
   const lever=new THREE.Group();lever.position.set(Math.min(cw*0.42,cw/2-0.12),yF+1.15,zF+1.35);if(narrow){lever.scale.setScalar(0.55);lever.position.y-=0.08;}g.add(lever);
-  const lv=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.5,0.06),greyMat);lv.position.y=0.25;lever.add(lv);const knob=new THREE.Mesh(new THREE.SphereGeometry(0.07,10,8),new THREE.MeshLambertMaterial({color:0xc8352b}));knob.position.y=0.5;lever.add(knob);
+  const lv=new THREE.Mesh(new THREE.BoxGeometry(0.06,0.5,0.06),greyMat);lv.position.y=0.25;lever.add(lv);const knob=new THREE.Mesh(new THREE.SphereGeometry(0.07,10,8),new THREE.MeshLambertMaterial({color:0xc8352b}));knob.position.y=0.5;lever.add(knob);{const l2=lv.clone(),k2=knob.clone();l2.position.x=k2.position.x=-0.2;lever.add(l2,k2);}
   // --- bridge detail: glass, wipers, overhead instruments, chairs, side consoles, lights, chart table
   const winH=yC-0.4-(yF+1.05),winY=yF+1.05+winH/2;
   const tint=new THREE.Mesh(new THREE.PlaneGeometry(W-0.3,winH),new THREE.MeshBasicMaterial({color:0x9fbfd0,transparent:true,opacity:0.07,depthWrite:false}));tint.position.set(0,winY,zF+0.12);g.add(tint);
@@ -2565,8 +2725,14 @@ function buildWheelhouse(pl,cfg){const g=new THREE.Group();const {L,B}=cfg;const
   const wipers=[];for(const wx of [-W/nM,0,W/nM]){const pv=new THREE.Group();pv.position.set(wx,yF+1.12,zF+0.17);g.add(pv);
     const arm=new THREE.Mesh(new THREE.BoxGeometry(0.03,winH*0.9,0.03),mP);arm.position.y=winH*0.45;pv.add(arm);const bl=new THREE.Mesh(new THREE.BoxGeometry(0.05,winH*0.7,0.05),matDark);bl.position.y=winH*0.55;pv.add(bl);pv.rotation.z=1.35;wipers.push(pv);}
   const ovW=narrow?Math.min(cw*0.5,2.6):Math.min(cw*0.8,7),ovH=narrow?0.24:0.42,ovZ=narrow?zF+0.42:zF+0.75;
-  const ov=add(ovW,ovH,0.4,mP,0,yC-ovH*0.6,ovZ);ov.rotation.x=0.35;
-  const ovS=new THREE.Mesh(new THREE.PlaneGeometry(ovW*0.95,ovH*0.85),new THREE.MeshBasicMaterial({map:ovTex}));ovS.position.set(0,yC-ovH*0.7,ovZ+0.21);ovS.rotation.x=0.35;g.add(ovS);
+  {const mFr=new THREE.MeshLambertMaterial({color:0xe9ecea}),pw=W/nM,fy0=yF+1.08,fy1=yC-0.42,fh=fy1-fy0,fz=zF+0.16,t=0.06;
+    for(let k=0;k<nM;k++){const cx=-W/2+(k+0.5)*pw,iw=pw-0.34;add(iw,t,0.05,mFr,cx,fy0+t/2,fz);add(iw,t,0.05,mFr,cx,fy1-t/2,fz);add(t,fh,0.05,mFr,cx-iw/2+t/2,(fy0+fy1)/2,fz);add(t,fh,0.05,mFr,cx+iw/2-t/2,(fy0+fy1)/2,fz);}}
+  const nOv=narrow?2:3,ow=Math.min(1.1,ovW/nOv*0.72),oh=ow*0.62;
+  for(let k=0;k<nOv;k++){const ox=(k-(nOv-1)/2)*(ovW/nOv)*(narrow?1.1:1.15),d=new THREE.Group();d.position.set(ox,yC-0.2-oh/2,ovZ);d.rotation.x=0.32;g.add(d);
+    add(0.05,0.22,0.05,greyMat,ox,yC-0.09,ovZ);
+    const bx=new THREE.Mesh(new THREE.BoxGeometry(ow,oh,0.22),mP);d.add(bx);
+    const sc=new THREE.Mesh(new THREE.PlaneGeometry(ow*0.7,oh*0.68),new THREE.MeshBasicMaterial({map:ovTex,toneMapped:false}));sc.position.set(-ow*0.07,0.02,0.115);d.add(sc);
+    for(let j=0;j<3;j++){const kb=new THREE.Mesh(new THREE.BoxGeometry(ow*0.08,oh*0.12,0.03),greyMat);kb.position.set(ow*0.38,oh*(0.22-j*0.2),0.12);d.add(kb);}}
   const leather=new THREE.MeshLambertMaterial({color:0x2a2420});
   for(const sx of [-1,1]){const cx=sx*Math.min(cw*0.3,2.4),cz=zF+2.35;add(0.12,0.6,0.12,greyMat,cx,yF+0.3,cz);add(0.6,0.12,0.55,leather,cx,yF+0.66,cz);add(0.6,0.7,0.1,leather,cx,yF+1.05,cz+0.3);
     for(const ax of [-1,1])add(0.06,0.06,0.45,leather,cx+ax*0.3,yF+0.88,cz);}
@@ -2929,6 +3095,7 @@ function act(a){if(!P)return;
   else if(a==='horn')horn();
   else if(a==='keys')$('#keysHelp').hidden=!$('#keysHelp').hidden;
   else if(a==='photo')togglePhoto();
+  else if(a==='ctrl')setCtrl(!ctrlConsole);
   else if(a==='pilot')modal(`<p class="eyebrow">Pilot boat alongside</p><h2>Hand over to the pilot?</h2><p>The harbor pilot will finish the approach and berthing for you. Pilotage costs 22% of the freight and you give up the on-time bonus. Damage taken so far still counts.</p>
     <div class="mbtns"><button class="btn" data-m="pilotgo">Hand over the con</button><button class="btn ghost" data-m="close">Keep steering</button></div>`);
 }
@@ -3186,7 +3353,7 @@ function finish(kind){
     ${c.days?L(`${cfg.electric?'Battery charging':'Ocean fuel'} (${c.days} day${c.days>1?'s':''}${cfg.nuclear?', nuclear':''})`,-ocean):''}${L(c.assist?'Harbor licence':'Port dues',-dues)}${L(cfg.electric?'Harbor power':'Harbor fuel',-fuel)}
     <tr class="tot"><td>Net result</td><td class="${net<0?'neg':'pos'}">${net<0?'−':''}${money(Math.abs(net)).replace('−','')}</td></tr></tbody></table>
     <p>Reputation ${dr>=0?'+':''}${dr} → ${Math.round(G.rep)}. ${ship?`Hull now ${ship.cond}%.`:''}</p>
-    ${isRun?`<p class="democta">${runOk?`<b>Harbor Run: mission ${c.run+1} of ${RUN_N} complete.</b> ${G.demo.step<RUN_N?`Next up: ${esc(DEMO_RUN[G.demo.step].title)}.`:''}`:`<b>Not quite.</b> The Harbor Run moves on once she is all fast. Have another go: start slowing down earlier and use the tugs.`}</p>`:EDITION==='demo'?`<p class="democta">You're playing the free demo. The full game adds the Panamax and Neo-Panamax, tanker, cruise liner, Ro-Ro and reefer, plus ★★★ and ★★★★ berths. Complete Fleet has all ${Object.keys(SHIPS).length} ships, from harbor tugs and electric ferries to the super-heavy fleet.</p>`:''}
+    ${isRun?`<p class="democta">${runOk?`<b>Harbor Run: mission ${c.run+1} of ${RUN_N} complete.</b> ${G.demo.step<RUN_N?`Next up: ${esc(DEMO_RUN[G.demo.step].title)}.`:''}`:`<b>Not quite.</b> The Harbor Run moves on once she is all fast. Have another go: start slowing down earlier and use the tugs.`}</p>`:EDITION==='demo'?`<p class="democta">You're playing the free demo. The full game adds the Panamax and Neo-Panamax, tanker, cruise liner, Ro-Ro and reefer, plus ★★★ and ★★★★ berths. One purchase unlocks all ${Object.keys(SHIPS).length} ships, from harbor tugs and electric ferries to the super-heavy fleet.</p>`:''}
     <div class="mbtns">${isRun?(runJustDone?`<button class="btn" data-m="runend">See what's next</button>`:runOk&&G.demo.step<RUN_N?`<button class="btn" data-m="runnext">Next mission: ${esc(DEMO_RUN[G.demo.step].title)}</button><button class="btn ghost" data-m="office">Back to the office</button>`:!runOk?`<button class="btn" data-m="runretry" data-i="${c.run}">Try again</button><button class="btn ghost" data-m="office">Back to the office</button>`:`<button class="btn" data-m="office">Back to the office</button>`):`<button class="btn" data-m="office">Back to the office</button>${EDITION==='demo'?storeBtn('Get the full game','btn ghost'):''}`}</div>`);
 }
 function toOffice(){pushMark=null;$('#scope').hidden=true;detachShipLights();clearTraffic();setDockCams(false);camera.near=1;camera.fov=55;camera.updateProjectionMatrix();setPaused(false);document.body.classList.remove('photo');$('#photoExit').hidden=true;mode='office';P=null;clearDyn();if(player){scene.remove(player.group);player=null;}
@@ -3251,12 +3418,11 @@ function runEndHTML(){const n=Object.keys(SHIPS).length;
   return `<p class="eyebrow">The Harbor Run · complete</p><h2>Your harbor career continues…</h2>
     <p>${RUN_N} of ${RUN_N} missions done, from a speedboat to a 400 m container giant. ${esc(G.company)} now has ${money(G.cash)} in the bank and a reputation of ${Math.round(G.rep)}.</p>
     <div class="tease">${TEASE.map(k=>`<figure>${shipPic(k)}<figcaption>${SHIPS[k].cls}</figcaption></figure>`).join('')}</div>
-    <ul class="runsell"><li><b>${n} ships</b> in Complete Fleet: the super-heavy fleet, warships, liners, electric ferries and harbor tugs</li>
+    <ul class="runsell"><li><b>${n} ships</b> in the full game: the super-heavy fleet, warships, liners, electric ferries and harbor tugs</li>
       <li><b>★★★ and ★★★★ berths</b>: ships parked fore and aft, every berth busy, always a crosswind</li>
       <li><b>Departures, fog, gales and tug-assist jobs</b>, with your own shipping line to grow</li>
       <li><b>Port of Los Angeles</b> coming in a future update</li></ul>
-    ${codeBox()}
-    <div class="mbtns">${storeBtn('Get the full game')}<a class="btn ghost" href="${STORE_URL}#comments" target="_blank" rel="noopener">Tell us which ship you want next</a><button class="btn ghost" data-m="office">Keep sailing (free play)</button></div>`;}
+    <div class="mbtns">${storeBtn('Get the full game')}<button class="btn ghost" data-m="office">Keep sailing (free play)</button></div>`;}
 function runPanel(){const st=G.demo.step;
   return `<section class="runpanel"><div class="runhead"><p class="eyebrow">Free demo · The Harbor Run</p><h2>${st>=RUN_N?'Harbor Run complete':`Mission ${st+1} of ${RUN_N}: ${esc(DEMO_RUN[st].title)}`}</h2>
     <p>${st>=RUN_N?'Free play is open below: fishing boat, speedboat and feeder contracts. The full game has the rest of the fleet.':'Five missions, from a 40-knot speedboat to a 400 m container giant. Each one unlocks the next. Free play opens when you finish.'}</p></div>
@@ -3264,7 +3430,7 @@ function runPanel(){const st=G.demo.step;
       <div class="bl-top"><span class="chip">Mission ${i+1}</span>${i<st?'<span class="chip okc">✓ Done</span>':i>st?'<span class="chip">🔒 Locked</span>':'<span class="chip nowc">Up next</span>'}</div>
       <b class="rt">${esc(m.title)}</b><p>${esc(m.goal)}</p>
       ${i===st?`<button class="btn" data-a="run" data-i="${i}">${i?'Take the helm':'Start'}</button>`:i<st?`<button class="btn ghost" data-a="run" data-i="${i}">Replay</button>`:''}</article>`).join('')}</div>
-    ${st>=RUN_N?`<div class="runend">${codeBox()}<div class="mbtns">${storeBtn('Get the full game')}<a class="btn ghost" href="${STORE_URL}#comments" target="_blank" rel="noopener">Tell us which ship you want next</a></div></div>`:''}</section>`;}
+    ${st>=RUN_N?`<div class="runend"><div class="mbtns">${storeBtn('Get the full game')}</div></div>`:''}</section>`;}
 /* corner hints while sailing a Harbor Run mission */
 let lastHint='';
 function copyCode(){const t=demoCode();const ok=()=>toast('Save code copied: '+t,'good'),no=()=>toast('Your save code: '+t);try{navigator.clipboard.writeText(t).then(ok,no);}catch(e){no();}}
@@ -3547,11 +3713,95 @@ function mergeStatic(){scene.updateMatrixWorld(true);const groups=new Map();
 /* ================= BOOT ================= */
 if(LA_OPEN){const e=document.querySelector('.mast .eyebrow');if(e)e.textContent='Ports of Long Beach & Los Angeles · San Pedro Bay';}
 if(EDITION!=='complete'){const e=document.querySelector('.mast .eyebrow');if(e)e.textContent+=EDITION==='demo'?' · Free demo':' · Standard edition';
-  const m=document.querySelector('.mast');if(m){const d=document.createElement('div');d.className='edcta';d.innerHTML=`<span>${EDITION==='demo'?`Free demo: the Harbor Run, ${RUN_N} missions`:'Standard edition: 9 ships'}</span>${storeBtn(EDITION==='demo'?'Get the full game':'Upgrade to Complete Fleet')}`;m.appendChild(d);}}
+  const m=document.querySelector('.mast');if(m){const d=document.createElement('div');d.className='edcta';d.innerHTML=`<span>${EDITION==='demo'?`Free demo: the Harbor Run, ${RUN_N} missions`:'Standard edition: 9 ships'}</span>${storeBtn('Get the full game')}<button type="button" class="btn ghost" data-iap="restore">Restore purchase</button>`;m.appendChild(d);}}
 dressPort();mergeStatic();
 applyQuality();markQual();resize();applyWeather('calm',false);BERTHS.forEach(b=>{if(Math.random()<0.7)mooredAt(b);});renderOffice();requestAnimationFrame(loop);
 if(DEMO&&!G.demo.intro&&G.demo.step===0)setTimeout(()=>runStart(0),300);
-else if(!DEMO&&!OWNER&&!G.voyages&&!G.demoImported)setTimeout(()=>toast('Played the free demo? Add your progress in the How to dock tab.'),1600);
+else if(!DEMO&&!OWNER&&!APP_IAP&&!G.voyages&&!G.demoImported)setTimeout(()=>toast('Played the free demo? Add your progress in the How to dock tab.'),1600);
+
+/* ---- in-app purchase (app edition) ---- */
+(function(){
+  const S=()=>window.HLStore;
+  const unlockNow=()=>{try{localStorage.setItem(UNLOCK_KEY,'1')}catch(e){}try{save()}catch(e){}
+    toast('Full game unlocked! Loading the whole fleet…','good');setTimeout(()=>location.reload(),1400);};
+  async function buy(){const st=S();if(!st||!st.native){toast('Purchases work in the app from Google Play.');return;}
+    toast('Opening Google Play…');
+    try{const r=await st.buy();
+      if(r==='owned')unlockNow();
+      else if(r==='pending')toast('Payment pending. The full game unlocks as soon as Google Play confirms it.');
+      else toast('The purchase was not completed.');}
+    catch(e){const m=String((e&&e.message)||e||'').toLowerCase();
+      toast(m.includes('cancel')?'Purchase cancelled.':'Google Play could not complete the purchase. Please try again.');}}
+  async function restore(){const st=S();if(!st||!st.native){toast('Restore works in the app from Google Play.');return;}
+    toast('Checking Google Play…');const o=await st.restore();
+    if(o===true){if(EDITION==='complete')toast('The full game is already unlocked.','good');else unlockNow();}
+    else if(o===false)toast('No full-game purchase found for this Google account.');
+    else toast('Could not reach Google Play. Check your connection and try again.');}
+  document.addEventListener('click',e=>{const b=e.target&&e.target.closest&&e.target.closest('[data-iap]');if(!b)return;
+    e.preventDefault();e.stopPropagation();(b.dataset.iap==='restore'?restore:buy)();},true);
+  window.addEventListener('load',async()=>{const st=S();if(!st||!st.native)return;
+    if(EDITION==='demo'){const o=await st.owned();if(o===true){unlockNow();return;}}
+    const p=await st.price();if(p){IAP_PRICE=p;document.querySelectorAll('[data-iap="buy"]').forEach(b=>{if(!b.textContent.includes(p))b.textContent+=' · '+p;});}});
+})();
+
+/* ---- helm console (touch controls) ---- */
+let ctrlConsole=false;
+const CN_KEY='harborline-controls';
+function setCtrl(on,quiet){ctrlConsole=!!on;try{localStorage.setItem(CN_KEY,on?'console':'classic')}catch(e){}
+  document.body.classList.toggle('cn-on',ctrlConsole);$('#console').hidden=!ctrlConsole;$('#ctrlBtn').textContent=$('#pCtrl').textContent='Controls: '+(ctrlConsole?'Console':'Classic');
+  if(!quiet)toast(ctrlConsole?'Helm console on. Drag the red-topped levers: turn the wheel on the right to steer.':'Classic controls.');}
+(function(){
+  let saved=null;try{saved=localStorage.getItem(CN_KEY)}catch(e){}
+  const touch=matchMedia('(pointer:coarse)').matches;
+  setCtrl(saved?saved==='console':touch,true);
+  const N=ORDERS.length,eng=$('#cnEng'),slot=eng.querySelector('.cn-slot'),lev=$('#cnLever'),til=$('#cnTil');
+  $('#cnTicks').innerHTML=ORDERS.map((o,i)=>'<i class="'+(o.v>0?'a':o.v<0?'r':'s')+'" style="top:'+((N-1-i)/(N-1)*100)+'%"></i>').join('');
+  const ordAt=y=>{const r=slot.getBoundingClientRect(),f=clamp((y-r.top-8)/(r.height-16),0,1);return Math.round((1-f)*(N-1));};
+  const drag=(el,move)=>{el.addEventListener('pointerdown',e=>{if(!P||mode!=='helm')return;e.preventDefault();el.classList.add('drag');try{el.setPointerCapture(e.pointerId)}catch(_){}move(e);
+      const mv=ev=>move(ev),up=()=>{el.classList.remove('drag');el.removeEventListener('pointermove',mv);el.removeEventListener('pointerup',up);el.removeEventListener('pointercancel',up);};
+      el.addEventListener('pointermove',mv);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);});};
+  drag(eng,e=>setOrd(ordAt(e.clientY)));
+  const setRud=v=>{P.rudCmd=clamp(Math.round(v),-35,35);$('#rudder').value=P.rudCmd;};
+  /* steering wheel: turn it like a real wheel, 3/4 turn each way = hard over (35°); double-tap to centre */
+  const WMAX=270,wheels=[];
+  const wheelSVG=()=>{let sp='';for(let k=0;k<8;k++)sp+='<g transform="rotate('+k*45+')"><line x1="0" y1="-9" x2="0" y2="-37" class="wsp"/><line x1="0" y1="-42" x2="0" y2="-50" class="wh'+(k?'':' king')+'"/></g>';
+    return '<svg viewBox="-53 -53 106 106" aria-hidden="true"><g class="wrot">'+sp+'<circle r="38.5" class="wrim"/><circle r="38.5" class="wrim2"/><rect x="-2.5" y="-42.3" width="5" height="7.6" rx="1" class="wmark"/><circle r="10" class="whub"/><circle r="4.5" class="whub2"/></g></svg>';};
+  const bindWheel=el=>{if(!el)return;el.innerHTML=wheelSVG();const rot=el.querySelector('.wrot');let drg=false,last=0,acc=0,tap=0;
+    const pol=e=>{const r=el.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);return {a:Math.atan2(dx,-dy)*180/Math.PI,d:Math.hypot(dx,dy)/r.width};};
+    el.addEventListener('pointerdown',e=>{if(!P||mode!=='helm')return;e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(_){}
+      drg=true;el.classList.add('drag');last=pol(e).a;acc=P.rudCmd/35*WMAX;
+      const t=performance.now();if(t-tap<300){setRud(0);acc=0;rot.style.transform='rotate(0deg)';}tap=t;});
+    el.addEventListener('pointermove',e=>{if(!drg||!P)return;const q=pol(e);if(q.d<0.12)return;let d=q.a-last;if(d>180)d-=360;if(d<-180)d+=360;last=q.a;
+      acc=clamp(acc+d,-WMAX,WMAX);setRud(acc/WMAX*35);rot.style.transform='rotate('+acc+'deg)';el.setAttribute('aria-valuenow',Math.round(P.rudCmd));});
+    const up=()=>{drg=false;el.classList.remove('drag');};el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up);el.addEventListener('lostpointercapture',up);
+    wheels.push({rot,busy:()=>drg});};
+  bindWheel($('#cnWheel'));bindWheel($('#clWheel'));
+  setInterval(()=>{if(!P)return;for(const w of wheels)if(!w.busy())w.rot.style.transform='rotate('+(P.rudCmd/35*WMAX)+'deg)';},60);
+  document.querySelectorAll('[data-chold]').forEach(b=>{const k=b.dataset.chold;
+    const on=e=>{e.preventDefault();hold[k]=1;b.classList.add('on');try{b.setPointerCapture(e.pointerId)}catch(_){}};
+    const off=()=>{hold[k]=0;b.classList.remove('on');};
+    b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointercancel',off);b.addEventListener('lostpointercapture',off);b.addEventListener('contextmenu',e=>e.preventDefault());});
+  $('#pCtrl').addEventListener('click',e=>{e.preventDefault();setCtrl(!ctrlConsole);});
+  $('#console').addEventListener('click',e=>{const b=e.target.closest('[data-cact]');if(!b||!P)return;const a=b.dataset.cact;
+    if(a==='mid')setRud(0);else act(a);});
+  let tk={};try{tk=JSON.parse(localStorage.getItem('harborline-hud-tucked')||'{}')||{}}catch(e){}
+  const tuck=on=>{$('#console').classList.toggle('tuck',on);$('#cnTab').setAttribute('aria-expanded',String(!on));};tuck(!!tk.console);
+  $('#cnTab').addEventListener('click',e=>{e.preventDefault();const on=!$('#console').classList.contains('tuck');tuck(on);
+    try{const t=JSON.parse(localStorage.getItem('harborline-hud-tucked')||'{}')||{};t.console=on;localStorage.setItem('harborline-hud-tucked',JSON.stringify(t))}catch(_){}});
+  const tx=id=>{const e=document.getElementById(id);return e?e.textContent:''};
+  setInterval(()=>{if(!ctrlConsole||!P)return;
+    lev.style.top=(8+(N-1-P.ord)/(N-1)*(slot.clientHeight-16))+'px';eng.setAttribute('aria-valuenow',P.ord);
+    const o=ORDERS[P.ord],od=$('#cnOrd');od.textContent=o.n;od.className='cn-ord'+(o.v>0?' ah':o.v<0?' as':'');
+    $('#cnSpd').textContent=tx('hSpd');$('#cnHdg').textContent=tx('hHdg');$('#cnRot').textContent=tx('hRot');
+    $('#cnHull').textContent=tx('hHull');$('#cnFuel').textContent=tx('hFuel');$('#cnSpdW').hidden=$('#hSpeedChip').hidden;
+    $('#cnRudA').style.left=(50+P.rud/35*50)+'%';$('#cnRudC').style.left=(50+P.rudCmd/35*50)+'%';
+    til.setAttribute('aria-valuenow',Math.round(P.rudCmd));
+    const th=tx('thrH'),zd=th.startsWith('Z');$('#cnThrH').textContent=th;$('#cnBowL').lastChild.textContent=zd?'◀ Walk':'◀ Bow';$('#cnBowR').lastChild.textContent=zd?'Walk ▶':'Bow ▶';$('#cnTugH').textContent=tx('tugH');
+    $('#cnTugRow').hidden=$('#tugRow').hidden;$('#cnLineRow').hidden=$('#lineRow').hidden;
+    $('#cnFast').disabled=$('#fastBtn').disabled;$('#cnLetgo').disabled=$('#letgoBtn').disabled;
+    $('#cnTabVal').textContent=$('#console').classList.contains('tuck')?o.n+' · '+tx('hSpd')+' kn · rudder '+Math.round(P.rudCmd)+'°':'';
+  },80);
+})();
 })();
 </script>
 
