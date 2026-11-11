@@ -12,16 +12,20 @@
     "open:ios": "npx cap open ios",
     "preview": "npx --yes http-server www -p 8080 -c-1",
     "icons:android": "npx capacitor-assets generate --android --iconBackgroundColor \"#143048\" --splashBackgroundColor \"#08131d\" --splashBackgroundColorDark \"#08131d\"",
-    "release:android": "node scripts/android-release.mjs"
+    "release:android": "node scripts/android-release.mjs",
+    "bundle:store": "esbuild scripts/store-entry.mjs --bundle --format=iife --platform=browser --target=es2020 --outfile=www/store.js",
+    "app:edition": "node scripts/app-edition.mjs"
   },
   "dependencies": {
     "@capacitor/core": "^8.0.0",
     "@capacitor/android": "^8.0.0",
-    "@capacitor/ios": "^8.0.0"
+    "@capacitor/ios": "^8.0.0",
+    "@capgo/native-purchases": "^8.0.0"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.0.0",
-    "@capacitor/assets": "^3.0.5"
+    "@capacitor/assets": "^3.0.5",
+    "esbuild": "^0.25.0"
   },
   "engines": {
     "node": ">=22"
