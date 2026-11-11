@@ -22,6 +22,8 @@ definitions:
         node scripts/app-edition.mjs
         node scripts/hud-tabs.mjs
         node scripts/console-controls.mjs
+        node scripts/center-view.mjs
+        node scripts/top-tabs.mjs
         npm run bundle:store
     - &android
       name: Create the Android project

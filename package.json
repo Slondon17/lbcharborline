@@ -1,6 +1,6 @@
 {
   "name": "harborline",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Harborline: ship docking and port tycoon game",
   "scripts": {

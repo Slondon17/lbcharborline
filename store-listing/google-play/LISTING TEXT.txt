@@ -2,7 +2,7 @@ APP NAME (30 characters max)
 Harborline: Ship Docking Sim
 
 SHORT DESCRIPTION (80 characters max)
-Berth real-size ships, from a 40-knot speedboat to a 400 m container giant.
+Free to try: berth real-size ships, from a speedboat to a 400 m container giant.
 
 FULL DESCRIPTION
 Take the helm in the Port of Long Beach and bring real-size ships alongside, by hand.
@@ -21,7 +21,10 @@ Chase camera, overhead view, dock cameras that show your gap and closing speed, 
 YOUR OWN SHIPPING LINE
 Earn cash and reputation, buy ships, and take on harder contracts.
 
-No ads. No in-app purchases. No account needed. Plays fully offline, and your progress saves on your device.
+FREE TO TRY
+Play the Harbor Run free: five missions, from a 40-knot speedboat to a 400 m container giant, then free play with the fishing boat, speedboat and feeder. One purchase unlocks the full game and all 32 ships, and your progress carries straight over.
+
+No ads. No subscriptions. No account needed. Plays fully offline, and your progress saves on your device.
 
 CATEGORY: Game > Simulation
 TAGS: Simulation, Driving, Ships

@@ -429,6 +429,23 @@ body.photo .console{display:none}
   .ck{font-size:10px}
   body.cn-on .util{width:88px;top:calc(88px + env(safe-area-inset-top,0px))}
 }
+
+/* TOP TABS */
+.brief-row{align-items:center}
+.foldtab{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:28px;height:24px;margin-left:8px;padding:0 6px;border:1px solid var(--line);border-radius:4px;background:rgba(0,0,0,.25);
+  color:var(--muted);font:600 10px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;pointer-events:auto;flex:none}
+.foldtab::after{content:"";width:6px;height:6px;border-right:2px solid var(--amber);border-bottom:2px solid var(--amber);transform:translateY(2px) rotate(-135deg)}
+.foldtab span:empty{display:none}
+.mapbox{position:relative}
+.mapbox>.foldtab{position:absolute;right:8px;top:8px;margin:0;z-index:2;background:rgba(8,18,26,.75)}
+.mapbox>.foldtab span{display:none}
+[data-top].fold .foldtab::after{transform:translateY(-2px) rotate(45deg)}
+.brief.fold #hBerth,.brief.fold #hNav{display:none}
+.brief.fold{padding-block:6px}
+.mapbox.fold{padding:0;border:0;background:none;box-shadow:none}
+.mapbox.fold #mini{display:none}
+.mapbox.fold>.foldtab{position:static;height:30px;padding:0 10px;background:var(--panel,rgba(8,18,26,.85));color:var(--fg)}
+.mapbox.fold>.foldtab span{display:inline}
 </style>
 
 <canvas id="gl" aria-label="3D view of the harbor"></canvas>
@@ -436,14 +453,14 @@ body.photo .console{display:none}
 <div id="scope" hidden></div>
 <div id="hud" hidden>
   <div class="hud-top">
-    <div class="panel brief">
-      <div class="brief-row"><span class="chip" id="hWx">Calm</span><span id="hClock">00:00</span></div>
+    <div class="panel brief" data-top="mission">
+      <div class="brief-row"><span class="chip" id="hWx">Calm</span><span id="hClock">00:00</span><button type="button" class="foldtab" data-fold="mission" aria-expanded="true" aria-label="Fold the mission card"><span></span></button></div>
       <b id="hBerth">Pier J · Berth 245</b>
       <span id="hNav">Steer for Queen's Gate</span>
       <div class="dockmeter" id="dockMeter" hidden><i id="dockFill"></i></div>
     </div>
     <button class="panel pausebtn" id="pauseBtn" aria-label="Pause"><svg viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.6" height="12" fill="currentColor"/><rect x="8.4" y="1" width="3.6" height="12" fill="currentColor"/></svg><span>Pause</span></button>
-    <div class="panel mapbox"><canvas id="mini" width="480" height="264" aria-label="Harbor chart"></canvas></div>
+    <div class="panel mapbox" data-top="chart"><button type="button" class="foldtab" data-fold="chart" aria-expanded="true" aria-label="Fold the chart"><span>Chart</span></button><canvas id="mini" width="480" height="264" aria-label="Harbor chart"></canvas></div>
   </div>
   <div id="bigMap" hidden><div class="bm-in"><div class="bm-top"><b>Harbor chart</b><span>North up · the dashed line is your channel</span><button class="btn ghost" id="bmClose">Close map</button></div><canvas id="bigMapCv" width="1600" height="1000" aria-label="Large harbor chart"></canvas></div></div>
   <div id="pauseMenu" hidden><div class="sheet"><p class="eyebrow">Ship's clock stopped</p><h2>Paused</h2>
@@ -589,6 +606,14 @@ body.photo .console{display:none}
 })();
 </script>
 <script src="store.js"></script>
+<script>
+(()=>{const KEY='harborline-hud-tucked';let t={};try{t=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){}
+  document.querySelectorAll('#hud [data-top]').forEach(p=>{const k=p.dataset.top,b=p.querySelector('.foldtab');
+    const set=on=>{p.classList.toggle('fold',on);b.setAttribute('aria-expanded',String(!on));};set(!!t[k]);
+    b.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const on=!p.classList.contains('fold');set(on);
+      try{const c=JSON.parse(localStorage.getItem(KEY)||'{}')||{};c[k]=on;localStorage.setItem(KEY,JSON.stringify(c))}catch(_){}});});
+})();
+</script>
 <script src="lib/three.min.js"></script>
 <script src="lib/ex/shaders/CopyShader.js"></script>
 <script src="lib/ex/shaders/LuminosityHighPassShader.js"></script>
@@ -3240,22 +3265,40 @@ function updateHUD(){
 
 /* ================= CAMERA & LOOP ================= */
 const tmpV=new THREE.Vector3(),focus=new THREE.Vector3(),sunV=new THREE.Vector3();
-function updateCamera(dt,t){
+/* CENTER VIEW */
+const vo={x:0,y:0,tx:0,ty:0,k:1,tk:1,n:0};
+function measureFree(){const W=innerWidth,H=innerHeight;vo.tx=0;vo.ty=0;vo.tk=1;
+  if($('#hud').hidden||document.body.classList.contains('photo'))return;
+  let left=0,bottom=H;
+  const els=[...document.querySelectorAll('#hudBottom > section')];const cn=document.getElementById('console');if(cn&&!cn.hidden)els.push(cn);
+  for(const e of els){const r=e.getBoundingClientRect();if(r.width<2||r.height<2)continue;
+    if(r.left<W*0.2&&r.right<W*0.3&&r.top<H*0.45)left=Math.max(left,r.right);   // side column (Options)
+    else if(r.bottom>H*0.6)bottom=Math.min(bottom,r.top);}                        // bottom panels / console
+  bottom=Math.max(bottom,H*0.45);
+  const cx=(left+W)/2,cy=bottom/2;vo.tx=W/2-cx;vo.ty=H/2-cy;
+  vo.tk=clamp(Math.sqrt(H/bottom),1,1.35);}
+function applyViewOffset(dt){
+  if((vo.n-=dt)<=0){vo.n=0.25;measureFree();}
+  const on=cam.mode!==1&&mode==='helm',f=1-Math.exp(-dt*5);
+  vo.x+=((on?vo.tx:0)-vo.x)*f;vo.y+=((on?vo.ty:0)-vo.y)*f;vo.k+=((on?vo.tk:1)-vo.k)*f;
+  if(Math.abs(vo.x)+Math.abs(vo.y)<0.5){if(camera.view&&camera.view.enabled)camera.clearViewOffset();}
+  else camera.setViewOffset(innerWidth,innerHeight,vo.x,vo.y,innerWidth,innerHeight);}
+function updateCamera(dt,t){applyViewOffset(dt);
   if(mode!=='helm'){const a=t*0.025;cam.pos.lerp(tmpV.set(-1200+Math.cos(a)*5200,1350,-3300+Math.sin(a)*3600),1-Math.exp(-dt*0.8));camera.position.copy(cam.pos);camera.lookAt(-1200,0,-4300);focus.set(-1200,0,-4300);return;}
   const c=P.cfg,sh=Math.sin(P.h),ch=Math.cos(P.h);focus.set(P.x,0,P.z);
   if(cam.mode===1){const wh=player.wheel,g=player.group;g.updateMatrixWorld();const sub=P.sub&&P.depth<-4,ey=sub?player.scopeTop:wh.eyeY;camera.position.copy(g.localToWorld(tmpV.set(wh.x0,ey,wh.eyeZ)));
     const py=-0.12-(cam.pitch-0.3)*1.4;camera.lookAt(g.localToWorld(tmpV.set(wh.x0+Math.sin(cam.yaw)*10,ey+(sub?0:py*10),wh.eyeZ-Math.cos(cam.yaw)*10)));cam.pos.copy(camera.position);return;}
   let target,look;
-  if(cam.mode===0){const D=(c.L*1.25+Math.min(60,c.L*0.8))*cam.dist,a=P.h+cam.yaw;
+  if(cam.mode===0){const D=(c.L*1.25+Math.min(60,c.L*0.8))*cam.dist*vo.k,a=P.h+cam.yaw;
     target=tmpV.set(P.x-Math.sin(a)*D*Math.cos(cam.pitch),D*Math.sin(cam.pitch)+12,P.z+Math.cos(a)*D*Math.cos(cam.pitch));
     look=new THREE.Vector3(P.x+sh*c.L*0.15,10,P.z-ch*c.L*0.15);}
   else if(P.as){const a=P.as.cl,b=a.berth,pts=[[P.x,P.z],[a.x,a.z]];
     if(a.phase!=='in'){const q=berthPoint(b,0,a.slotC);pts.push([q.x,q.z]);}
     let x0=Infinity,x1=-Infinity,z0=Infinity,z1=-Infinity;for(const [px,pz] of pts){x0=Math.min(x0,px);x1=Math.max(x1,px);z0=Math.min(z0,pz);z1=Math.max(z1,pz);}
     const m=a.L*0.7+90,cx=(x0+x1)/2,cz=(z0+z1)/2;
-    const D=clamp(Math.max((z1-z0+m)/1.04,(x1-x0+m)/(1.04*camera.aspect))*1.8*cam.dist,300,4200),sz=cz+D*0.16;
+    const D=clamp(Math.max((z1-z0+m)/1.04,(x1-x0+m)/(1.04*camera.aspect))*1.8*cam.dist*vo.k,300,4200),sz=cz+D*0.16;
     target=tmpV.set(cx,D,sz+D*0.04);look=new THREE.Vector3(cx,0,sz);}
-  else{const D=c.L*4*cam.dist;target=tmpV.set(P.x,D,P.z+D*0.12);look=new THREE.Vector3(P.x,0,P.z);}
+  else{const D=c.L*4*cam.dist*vo.k;target=tmpV.set(P.x,D,P.z+D*0.12);look=new THREE.Vector3(P.x,0,P.z);}
   cam.pos.lerp(target,1-Math.exp(-dt*4));cam.look.lerp(look,1-Math.exp(-dt*6));camera.position.copy(cam.pos);
   if(cam.shake>0){const k=cam.shake*c.L*0.03;camera.position.x+=rnd(-k,k);camera.position.y+=rnd(-k,k)*0.5;camera.position.z+=rnd(-k,k);cam.shake=Math.max(0,cam.shake-dt*1.8);}
   camera.lookAt(cam.look);

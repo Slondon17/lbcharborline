@@ -118,3 +118,14 @@ Harborline is a **free** app. Everyone can play the Harbor Run demo, and a one-t
 - Uninstall, reinstall and open the app again. It should unlock by itself, and **Restore purchase** should also work.
 
 If anything there doesn't behave, tell me what you saw and I'll fix it.
+
+## Sending an update to testers
+
+1. **GitHub:** upload the changed files (extract any zip first, then drag folders as folders) and click **Commit changes**. Check that `scripts/` has all its files.
+2. **Codemagic:** Start new build → branch `main` → **Harborline - Tester build (full game unlocked)**. Wait for all green, then download the `.aab` from **Artifacts**.
+3. **Play Console:** Test and release → Testing → Closed testing → your track → **Create new release** → upload the `.aab` → add release notes → **Next** → **Save** → **Send changes for review** / **Start rollout**.
+4. Google reviews it (a few hours to a day). Testers get it as a normal Play Store update.
+
+Every build gets a new version code automatically. Change `"version"` in `package.json` (1.0.1 → 1.0.2) when you want testers to see a new version name.
+
+For the public launch, build **Harborline - Android release** instead, and upload that to **Production**. Never send a tester build to Production.
