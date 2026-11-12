@@ -24,6 +24,7 @@ definitions:
         node scripts/console-controls.mjs
         node scripts/center-view.mjs
         node scripts/top-tabs.mjs
+        node scripts/helm-v2.mjs
         npm run bundle:store
     - &android
       name: Create the Android project
@@ -37,8 +38,10 @@ definitions:
       name: Copy the game into the app
       script: npx cap sync android
     - &release
-      name: Release settings (API 36, version, signing, billing)
-      script: node scripts/android-release.mjs
+      name: Release settings (API 36, version, signing, billing, Play fixes)
+      script: |
+        node scripts/android-release.mjs
+        node scripts/play-fixes.mjs
     - &bundle
       name: Build the app bundle
       script: |
