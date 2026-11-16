@@ -25,6 +25,7 @@ definitions:
         node scripts/center-view.mjs
         node scripts/top-tabs.mjs
         node scripts/helm-v2.mjs
+        node scripts/perf-guard.mjs
         npm run bundle:store
     - &android
       name: Create the Android project
