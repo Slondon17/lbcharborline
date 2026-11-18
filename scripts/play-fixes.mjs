@@ -1,4 +1,4 @@
-// Google Play "for your next release" fixes. Run after `npx cap sync android`. Safe to run more than once.
+// Google Play "for your next release" fixes (plus: landscape is optional, not required, so no device is filtered out). Run after `npx cap sync android`. Safe to run more than once.
 //  1. Full screen: MainActivity turns on edge-to-edge, hides the status and navigation bars (immersive; a swipe from
 //     the edge shows them briefly), hides them again when you come back to the game, lets the game use the area beside a
 //     camera notch, and paints the window behind the game dark so the launch logo can never show in a strip at the top.
@@ -19,6 +19,20 @@ if (!xml.includes('android:appCategory')) {
   writeFileSync(manifest, xml);
   console.log('play-fixes: marked as a game (appCategory="game")');
 } else console.log('play-fixes: app category already set');
+
+/* 1b. Manifest: landscape is preferred, not required (the landscape lock otherwise implies a required
+       android.hardware.screen.landscape feature, which hides the app from some devices on Google Play) */
+{
+  let m = readFileSync(manifest, 'utf8');
+  const feats = ['android.hardware.screen.landscape', 'android.hardware.screen.portrait'];
+  const missing = feats.filter(f => !m.includes(f));
+  if (missing.length) {
+    const tags = missing.map(f => `    <uses-feature android:name="${f}" android:required="false" />`).join('\n');
+    m = m.replace(/(<manifest\b[^>]*>)/, `$1\n${tags}`);
+    writeFileSync(manifest, m);
+    console.log('play-fixes: landscape marked as optional for Google Play');
+  } else console.log('play-fixes: screen features already declared');
+}
 
 /* 2. MainActivity: edge-to-edge + immersive full screen */
 const find = (dir) => {
